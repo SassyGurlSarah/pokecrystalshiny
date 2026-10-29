@@ -2,6 +2,8 @@
 
 This is a disassembly of Pokémon Crystal.
 
+Shiny odds 1 in 64
+
 It builds the following ROMs:
 
 - Pokemon - Crystal Version (UE) (V1.0) [C][!].gbc `sha1: f4cd194bdee0d04ca4eac29e09b8e4e9d818c133`
