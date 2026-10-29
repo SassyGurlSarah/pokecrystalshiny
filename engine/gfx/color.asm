@@ -8,40 +8,27 @@ DEF SHINY_SPC_DV EQU 10
 CheckShininess:
 ; Check if a mon is shiny by DVs at bc.
 ; Return carry if shiny.
+    ld l, c
+    ld h, b
 
-	ld l, c
-	ld h, b
+; Check 4 bits total from Attack and Defense
+    ld a, [hl]
+    and %00110011    ; Isolate 2 bits of Attack and 2 bits of Defense
+    jr nz, .not_shiny
 
-; Attack
-	ld a, [hl]
-	and SHINY_ATK_MASK << 4
-	jr z, .not_shiny
-
-; Defense
-	ld a, [hli]
-	and %1111
-	cp SHINY_DEF_DV
-	jr nz, .not_shiny
-
-; Speed
-	ld a, [hl]
-	and %1111 << 4
-	cp SHINY_SPD_DV << 4
-	jr nz, .not_shiny
-
-; Special
-	ld a, [hl]
-	and %1111
-	cp SHINY_SPC_DV
-	jr nz, .not_shiny
+    ; Check 2 bits total from Speed and Special
+    inc hl
+    ld a, [hl]
+    and %00010001    ; Isolate 1 bit of Speed and 1 bit of Special
+    jr nz, .not_shiny
 
 ; shiny
-	scf
-	ret
+    scf
+    ret
 
 .not_shiny
-	and a
-	ret
+    and a
+    ret
 
 Unused_CheckShininess:
 ; Return carry if the DVs at hl are all 10 or higher.
